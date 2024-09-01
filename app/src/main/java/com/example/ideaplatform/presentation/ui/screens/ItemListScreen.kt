@@ -253,6 +253,18 @@ private fun SearchInput(
                 contentDescription = stringResource(R.string.search_icon),
             )
         },
+        trailingIcon = {
+            if (text.isNotEmpty()) {
+                Icon(
+                    modifier = Modifier.clickable {
+                        onValueChange("")
+                        focusManager.clearFocus()
+                    },
+                    painter = painterResource(id = R.drawable.baseline_close_24),
+                    contentDescription = stringResource(R.string.delete_input_text)
+                )
+            }
+        },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = {
@@ -290,9 +302,10 @@ private fun UpdateDialogAlert(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = {
-                dialogState.value = dialogState.value.copy(
-                    third = dialogState.value.third?.minus(1)
-                )
+                dialogState.value = dialogState.value.copy(third = dialogState.value.third?.let {
+                    if (it > 0) it.minus(1)
+                    else it
+                })
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_remove_circle_outline_24),

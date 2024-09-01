@@ -34,12 +34,14 @@ class ItemViewModel @Inject constructor(
 
     private fun init(){
         viewModelScope.launch(Dispatchers.IO) {
-            itemRepository.getAllItem().collectLatest { data ->
-                _state.update {
-                    it.copy(
-                        itemList = data,
-                        loading = false
-                    )
+            if (state.value.searchText.isEmpty()) {
+                itemRepository.getAllItem().collect { data ->
+                    _state.update {
+                        it.copy(
+                            itemList = data,
+                            loading = false
+                        )
+                    }
                 }
             }
         }
@@ -56,7 +58,7 @@ class ItemViewModel @Inject constructor(
         _state.update { it.copy(searchText = intent.itemName) }
 
         viewModelScope.launch(Dispatchers.IO) {
-            itemRepository.getItemByName(intent.itemName).collectLatest { itemList ->
+            itemRepository.getItemByName(intent.itemName).collect { itemList ->
                 _state.update { state ->
                     state.copy(itemList = itemList)
                 }

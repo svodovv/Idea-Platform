@@ -19,4 +19,5 @@
     <string name="item_amout">Количество товара</string>
     <string name="settings_icon">Иконка шестерни</string>
     <string name="warning_icon">Иконка предупреждения</string>
+    <string name="delete_input_text">Удалить введеннный текст</string>
 </resources>
