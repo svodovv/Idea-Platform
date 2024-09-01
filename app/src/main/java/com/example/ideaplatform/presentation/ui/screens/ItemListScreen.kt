@@ -1,6 +1,7 @@
 package com.example.ideaplatform.presentation.ui.screens
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -42,10 +42,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ideaplatform.R
 import com.example.ideaplatform.domain.model.ItemModel
+import com.example.ideaplatform.presentation.ui.theme.IdeaPlatformTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -154,7 +156,7 @@ private fun FlowTagsRow(modifier: Modifier = Modifier, tags: ArrayList<String>) 
     FlowRow(modifier = modifier) {
         tags.forEach { tagName ->
             Card(
-                modifier = modifier,
+                modifier = modifier.clickable {},
                 border = BorderStroke(1.dp, Color.Black),
                 shape = MaterialTheme.shapes.large
 
@@ -269,60 +271,80 @@ private fun UpdateDialogAlert(
 ) {
 
     val closeDialog = { dialogState.value = Triple(false, null, null) }
+    val color = MaterialTheme.colorScheme.onPrimaryContainer
 
-    AlertDialog(modifier = modifier,
-        onDismissRequest = { closeDialog() },
-        title = { Text(text = stringResource(R.string.submit_button)) },
-        text = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                IconButton(onClick = {
-                    dialogState.value = dialogState.value.copy(
-                        third = dialogState.value.third?.minus(1)
-                    )
-                }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_remove_circle_outline_24),
-                        contentDescription = stringResource(R.string.amount_minus),
+    AlertDialog(modifier = modifier, onDismissRequest = { closeDialog() }, icon = {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_settings_24),
+            contentDescription = stringResource(R.string.settings_icon),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }, title = {
 
-                        )
-                }
-                dialogState.value.third?.let { amount ->
-                    Text(text = "$amount")
-                }
-
-                IconButton(onClick = {
-                    dialogState.value = dialogState.value.copy(
-                        third = dialogState.value.third?.plus(1)
-                    )
-                }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_add_circle_outline_24),
-                        contentDescription = stringResource(R.string.amount_plus),
-                    )
-                }
-            }
-        },
-        confirmButton = {
-            Button(onClick = {
-                dialogState.value.second?.let { itemId ->
-                    dialogState.value.third?.let { itemAmount ->
-                        onUpdateClick(itemId, itemAmount)
-                        closeDialog()
-                    }
-                }
+        Spacer(modifier = Modifier.padding(8.dp))
+        Text(text = stringResource(R.string.item_amout))
+    }, text = {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = {
+                dialogState.value = dialogState.value.copy(
+                    third = dialogState.value.third?.minus(1)
+                )
             }) {
-                Text(text = stringResource(R.string.submint))
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_remove_circle_outline_24),
+                    contentDescription = stringResource(R.string.amount_minus),
+                    tint = color
+                )
+            }
+            dialogState.value.third?.let { amount ->
+                Text(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    text = "$amount",
+                    style = MaterialTheme.typography.headlineSmall
+                )
             }
 
-        },
-        dismissButton = {
-            Button(onClick = { closeDialog() }) {
-                Text(text = stringResource(R.string.dismiss))
+            IconButton(onClick = {
+                dialogState.value = dialogState.value.copy(
+                    third = dialogState.value.third?.plus(1)
+                )
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_add_circle_outline_24),
+                    contentDescription = stringResource(R.string.amount_plus),
+                    tint = color
+                )
             }
-        })
+        }
+    }, confirmButton = {
+
+        Text(
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .clickable {
+                    dialogState.value.second?.let { itemId ->
+                        dialogState.value.third?.let { itemAmount ->
+                            onUpdateClick(itemId, itemAmount)
+                            closeDialog()
+                        }
+                    }
+                }, text = stringResource(R.string.submint), color = color
+        )
+
+
+    }, dismissButton = {
+
+        Text(
+            modifier = Modifier.clickable { closeDialog() },
+            text = stringResource(R.string.dismiss),
+            color = color
+        )
+
+    })
 }
 
 @Composable
@@ -332,25 +354,63 @@ private fun DeleteDialogAlert(
     deleteButtonClick: (itemId: Int) -> Unit,
 ) {
     val closeDialog = { dialogState.value = Pair(false, null) }
+    val color = MaterialTheme.colorScheme.onPrimaryContainer
 
-    AlertDialog(modifier = modifier, onDismissRequest = { closeDialog() }, title = {
+    AlertDialog(modifier = modifier, onDismissRequest = { closeDialog() }, icon = {
+        Icon(
+            modifier = Modifier.padding(bottom = 16.dp),
+            painter = painterResource(id = R.drawable.round_warning_24),
+            contentDescription = stringResource(
+                R.string.warning_icon
+            )
+        )
+    }, title = {
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.delete_item),
             textAlign = TextAlign.Center
         )
+
     }, text = { Text(stringResource(R.string.you_really_want_delete_item)) }, confirmButton = {
-        Button(onClick = {
-            dialogState.value.second?.let(deleteButtonClick)
-            closeDialog()
-        }) {
-            Text(text = stringResource(R.string.yes))
-        }
+        Text(
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .clickable {
+                    dialogState.value.second?.let { deleteButtonClick(it) }
+                    closeDialog()
+                }, text = stringResource(R.string.yes), color = color
+        )
+
     }, dismissButton = {
-        Button(onClick = { closeDialog() }) {
-            Text(text = stringResource(R.string.no))
-        }
+        Text(
+            modifier = Modifier.clickable { closeDialog() },
+            text = stringResource(R.string.no),
+            color = color
+        )
     }
 
     )
+}
+
+
+@Preview
+@Composable
+fun UpdateDialogAlertPreview() {
+    IdeaPlatformTheme {
+        val dialogState: MutableState<Triple<Boolean, Int?, Int?>> = remember {
+            mutableStateOf(Triple(true, 22, 30))
+        }
+        UpdateDialogAlert(dialogState = dialogState, onUpdateClick = { _, _ -> })
+    }
+}
+
+@Preview
+@Composable
+fun DeleteDialogAlertPreview() {
+    IdeaPlatformTheme {
+        val dialogState: MutableState<Pair<Boolean, Int?>> = remember {
+            mutableStateOf(Pair(true, 22))
+        }
+        DeleteDialogAlert(dialogState = dialogState, deleteButtonClick = { _ -> })
+    }
 }

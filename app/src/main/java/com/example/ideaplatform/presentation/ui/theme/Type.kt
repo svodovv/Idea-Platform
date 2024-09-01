@@ -17,6 +17,13 @@ val Typography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.sp,
     ),
+    headlineSmall = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_regular)),
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp,
+        lineHeight = 30.sp,
+        letterSpacing = 0.sp,
+    ),
     titleLarge =  TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_regular)),
         fontWeight = FontWeight.Normal,

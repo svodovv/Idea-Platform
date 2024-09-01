@@ -13,7 +13,10 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="delete_item">Удаление товара</string>
-    <string name="you_really_want_delete_item">Вы действительно хотите удалить выбранный элемент?</string>
+    <string name="you_really_want_delete_item">Вы действительно хотите удалить выбранный товар?</string>
     <string name="searcch_item">Поиск товара</string>
     <string name="search_icon">Иконка поиска</string>
+    <string name="item_amout">Количество товара</string>
+    <string name="settings_icon">Иконка шестерни</string>
+    <string name="warning_icon">Иконка предупреждения</string>
 </resources>

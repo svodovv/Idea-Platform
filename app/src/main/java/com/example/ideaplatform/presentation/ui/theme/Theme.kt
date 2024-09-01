@@ -27,7 +27,9 @@ private val DarkColorScheme = darkColorScheme(
     background = Cultered,
     primaryContainer = LigthBlue,
     onPrimary = Blue,
-    onSecondary = Orange
+    onSecondary = Orange,
+    onPrimaryContainer = BlueMedium,
+    onSurfaceVariant = LightGray
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -38,7 +40,9 @@ private val LightColorScheme = lightColorScheme(
     background = Cultered,
     primaryContainer = LigthBlue,
     onPrimary = Blue,
-    onSecondary = Orange
+    onSecondary = Orange,
+    onPrimaryContainer = BlueMedium,
+    onSurfaceVariant = LightGray
 
 
     /* Other default colors to override
