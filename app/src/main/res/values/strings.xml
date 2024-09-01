@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Idea Platform</string>
+    <string name="update_amount_icon">Обновить колличество на складе</string>
+    <string name="delete_item_icon">Удалить товар</string>
+    <string name="date_update">Дата обновления</string>
+    <string name="in_storage">На складе</string>
+    <string name="item_list">Список товаров</string>
+    <string name="amount_minus">Уменьшить колличество</string>
+    <string name="amount_plus">Добавить товар</string>
+    <string name="submit_button">Подтверждение действия</string>
+    <string name="submint">Принять</string>
+    <string name="dismiss">Отмена</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="delete_item">Удаление товара</string>
+    <string name="you_really_want_delete_item">Вы действительно хотите удалить выбранный элемент?</string>
+    <string name="searcch_item">Поиск товара</string>
+    <string name="search_icon">Иконка поиска</string>
+</resources>
