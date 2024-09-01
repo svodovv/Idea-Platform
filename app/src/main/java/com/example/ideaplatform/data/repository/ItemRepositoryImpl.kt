@@ -21,17 +21,9 @@ class ItemRepositoryImpl @Inject constructor(
     private val itemDao: ItemDao
 ) : ItemRepository {
 
-    override fun getAllItem(): Flow<List<ItemModel>> {
-        return itemDao.getAllItemList().map { entity ->
-            entity.map { item ->
-                val time = convertUnixTimeToString(item.time)
-                item.toItemModel(time)
-            }
-        }
-    }
 
     override fun getItemByName(itemName: String): Flow<List<ItemModel>> {
-        return itemDao.getItemById(itemName = itemName).map { entity ->
+        return itemDao.getItemById(itemName = "%$itemName%").map { entity ->
             entity.map { item ->
                 val time = convertUnixTimeToString(item.time)
                 item.toItemModel(time)

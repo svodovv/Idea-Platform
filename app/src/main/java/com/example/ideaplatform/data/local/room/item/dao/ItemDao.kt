@@ -12,10 +12,7 @@ interface ItemDao {
     @Query("DELETE FROM item WHERE id = :itemId ")
     suspend fun deleteItem(itemId: Int)
 
-    @Query("SELECT * FROM item")
-    fun getAllItemList(): Flow<List<ItemEntity>>
-
-    @Query("SELECT * FROM item WHERE name LIKE '%' || :itemName || '%'")
+    @Query("SELECT * FROM item WHERE name LIKE  :itemName ")
     fun getItemById(itemName: String): Flow<List<ItemEntity>>
 
     @Query("UPDATE item SET amount = :itemAmount WHERE id = :itemId")
