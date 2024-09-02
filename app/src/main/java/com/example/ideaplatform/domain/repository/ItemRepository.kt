@@ -9,4 +9,5 @@ interface ItemRepository {
     fun getItemByName(itemName: String): Flow<List<ItemModel>>
     suspend fun updateItem(itemId: Int, itemAmount: Int)
     suspend fun deleteItemById(itemId: Int)
+    suspend fun getAllItems(): Flow<List<ItemModel>>
 }

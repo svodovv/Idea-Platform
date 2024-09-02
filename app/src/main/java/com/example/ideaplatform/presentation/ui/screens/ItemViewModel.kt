@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +26,7 @@ class ItemViewModel @Inject constructor(
 
 
     init {
-        searchItem("")
+        init()
     }
 
     fun sendIntent(intent: ItemIntent) {
@@ -39,6 +40,15 @@ class ItemViewModel @Inject constructor(
     private fun deleteItem(intent: ItemIntent.DeleteItem) {
         viewModelScope.launch(Dispatchers.IO) {
             itemRepository.deleteItemById(intent.itemId)
+        }
+    }
+
+    private fun init(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val listItems = itemRepository.getAllItems().first()
+            _state.update { state ->
+                state.copy(itemList = listItems)
+            }
         }
     }
 
