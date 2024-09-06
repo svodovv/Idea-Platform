@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
@@ -43,16 +44,18 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "2.0.0"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    kapt {
-        correctErrorTypes = true
+    ksp {
+        arg("dagger.hilt.disableModulesHaveInstallInCheck", "true")
     }
+
 }
 
 dependencies {
@@ -78,13 +81,13 @@ dependencies {
     implementation( libs.androidx.room.runtime)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     // Dagger - Hilt
-    kapt(libs.androidx.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     //Splash
     implementation(libs.androidx.core.splashscreen)
@@ -92,6 +95,7 @@ dependencies {
     //Gson
     implementation(libs.gson)
 
+    //
     //Acompanist
   //  implementation(libs.accompanist.flowlayout)
 }
